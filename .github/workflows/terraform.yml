@@ -13,6 +13,7 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    environment: production
     env:
       # These refer to the Secrets you'll add in GitHub Repo Settings
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
