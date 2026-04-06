@@ -13,7 +13,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
     env:
       # These refer to the Secrets you'll add in GitHub Repo Settings
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -46,3 +45,4 @@ jobs:
       # Only runs when you merge to main
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
+    environment: production
