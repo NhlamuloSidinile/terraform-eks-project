@@ -26,19 +26,19 @@ variable "vpc_cidr" {
 variable "cluster_version" {
   description = "Kubernetes version for the EKS cluster"
   type        = string
-  default     = "1.35"
+  default     = "1.31"
 }
 
 variable "node_instance_types" {
   description = "Instance types for the EKS managed node group"
   type        = list(string)
-  default     = ["t3.medium"]
+  default     = ["t3.micro"]
 }
 
 variable "node_desired_size" {
   description = "Desired number of worker nodes"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "node_min_size" {
