@@ -8,8 +8,7 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  # Uncomment and configure for remote state
+  
    backend "s3" {
      bucket         = "terraform-april-deployment"
      key            = "eks-cluster/terraform.tfstate"
