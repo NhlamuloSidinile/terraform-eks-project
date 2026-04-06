@@ -8,13 +8,13 @@ terraform {
       version = "~> 5.0"
     }
   }
-  
-   backend "s3" {
-     bucket         = "terraform-april-deployment"
-     key            = "eks-cluster/terraform.tfstate"
-     region         = "eu-west-1"
-     dynamodb_table = "terraform-lock"
-     encrypt        = true
+
+  backend "s3" {
+    bucket         = "terraform-april-deployment"
+    key            = "eks-cluster/terraform.tfstate"
+    region         = "eu-west-1"
+    dynamodb_table = "terraform-lock"
+    encrypt        = true
   }
 }
 
