@@ -96,6 +96,25 @@ resource "aws_eks_cluster" "main" {
 }
 
 # =============================================================================
+# EKS Cluster Access Entries (Admin Access for Bastion)
+# =============================================================================
+resource "aws_eks_access_entry" "bastion" {
+  cluster_name  = aws_eks_cluster.main.name
+  principal_arn = "arn:aws:iam::260317866030:role/instanceRole"
+  type          = "STANDARD"
+}
+
+resource "aws_eks_access_policy_association" "bastion_admin" {
+  cluster_name  = aws_eks_cluster.main.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+  principal_arn = "arn:aws:iam::260317866030:role/instanceRole"
+
+  access_scope {
+    type = "cluster"
+  }
+}
+
+# =============================================================================
 # EKS Cluster CloudWatch Log Group
 # =============================================================================
 resource "aws_cloudwatch_log_group" "eks" {
@@ -156,6 +175,8 @@ resource "aws_eks_node_group" "main" {
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.private_subnet_ids
   instance_types  = var.node_instance_types
+  ami_type      = "AL2023_x86_64_STANDARD" # Standard for 1.35
+  capacity_type = "ON_DEMAND"
 
   scaling_config {
     desired_size = var.node_desired_size
