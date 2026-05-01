@@ -53,3 +53,29 @@ variable "node_max_size" {
   default     = 4
 }
 
+
+variable "argocd_chart_version" {
+  description = "ArgoCD Helm chart version"
+  type        = string
+  default     = "7.7.5"
+}
+
+variable "argocd_namespace" {
+  description = "Kubernetes namespace for ArgoCD"
+  type        = string
+  default     = "argocd"
+}
+
+variable "argocd_server_service_type" {
+  description = "Service type for ArgoCD server (LoadBalancer or ClusterIP)"
+  type        = string
+  default     = "ClusterIP"
+}
+
+variable "argocd_enable_ha" {
+  description = "Enable High Availability mode for ArgoCD"
+  type        = bool
+  default     = true
+}
+
+

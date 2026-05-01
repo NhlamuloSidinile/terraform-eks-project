@@ -8,7 +8,7 @@ locals {
 }
 
 module "vpc" {
-  source = "./vpc"
+  source = "./modules/vpc"
 
   vpc_cidr     = var.vpc_cidr
   environment  = var.environment
@@ -18,7 +18,7 @@ module "vpc" {
 }
 
 module "eks" {
-  source = "./eks"
+  source = "./modules/eks"
 
   cluster_version     = var.cluster_version
   environment         = var.environment
@@ -32,3 +32,16 @@ module "eks" {
   common_tags         = local.common_tags
 }
 
+module "argocd" {
+  source = "./modules/argocd"
+
+  cluster_name        = module.eks.cluster_name
+  chart_version       = var.argocd_chart_version
+  namespace           = var.argocd_namespace
+  server_service_type = var.argocd_server_service_type # Fixed the missing dot here
+  enable_ha           = var.argocd_enable_ha
+  environment         = var.environment
+  project_name        = var.project_name
+
+  depends_on = [module.eks]
+}
