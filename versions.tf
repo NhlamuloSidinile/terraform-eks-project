@@ -13,7 +13,7 @@ terraform {
     bucket         = "terraform-april-deployment"
     key            = "eks-cluster/terraform.tfstate"
     region         = "eu-west-1"
-    dynamodb_table = "terraform-lock"
+    "use_lockfile  = true
     encrypt        = true
   }
 }
