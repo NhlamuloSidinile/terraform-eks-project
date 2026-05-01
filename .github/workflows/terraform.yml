@@ -1,56 +1,56 @@
-# name: 'Terraform GitHub Actions'
+name: 'Terraform GitHub Actions'
 
-# on:
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
 
-# permissions:
-#   contents: read
-#   pull-requests: write
+permissions:
+  contents: read
+  pull-requests: write
 
-# jobs:
-#   # JOB 1: This runs automatically so you can see the Plan output immediately
-#   terraform_plan:
-#     name: 'Terraform Plan'
-#     runs-on: ubuntu-latest
-#     env:
-#       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#       AWS_REGION: 'eu-west-1'
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+jobs:
+  # JOB 1: This runs automatically so you can see the Plan output immediately
+  terraform_plan:
+    name: 'Terraform Plan'
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: 'eu-west-1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-#       - name: Setup Terraform
-#         uses: hashicorp/setup-terraform@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
-#       - name: Terraform Init
-#         run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-#       - name: Terraform Plan
-#         run: terraform plan -no-color -input=false
+      - name: Terraform Plan
+        run: terraform plan -no-color -input=false
 
-#   # JOB 2: This only starts after Job 1 finishes AND you click "Approve"
-#   terraform_apply:
-#     name: 'Terraform Apply'
-#     needs: terraform_plan  # This creates the dependency link
-#     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-#     runs-on: ubuntu-latest
-#     environment: production # The approval "gate" is now only on this specific job
-#     env:
-#       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#       AWS_REGION: 'eu-west-1'
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
+  # JOB 2: This only starts after Job 1 finishes AND you click "Approve"
+  terraform_apply:
+    name: 'Terraform Apply'
+    needs: terraform_plan  # This creates the dependency link
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production # The approval "gate" is now only on this specific job
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: 'eu-west-1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-#       - name: Setup Terraform
-#         uses: hashicorp/setup-terraform@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
-#       - name: Terraform Init
-#         run: terraform init
+      - name: Terraform Init
+        run: terraform init
 
-#       - name: Terraform Apply
-#         run: terraform apply -auto-approve -input=false
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
